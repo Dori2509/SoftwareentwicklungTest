@@ -1,0 +1,19 @@
+Rückmeldung (Angelika Martin):
+
+- angemessene Reaktionszeit auf Anfragen
+- gute strukturierte Moodle-Seite
+- einheitliches "Ausgangswissen" schaffen (Skript, Chats)
+- Aufgaben zum Vertiefen vom theoretischen Wissen bieten
+
+/* Feedback von Frank Preiwuss */
+- eine Idee wäre die Übungsaufgaben anhand eines Projektes durchzuführen, dass für alle Übungsaufgaben genutzt werden kann zb.:
+- kleine Architketur mit UML
+- Umsetzung dieser mit CCD
+- Build des Programms mit Maven
+- Verwaltung des selben mit Git
+- etc.
+
+/* Feedback von Marc Hankel */
+
+- den Einsatz von Screencast Software wie Camtasia für ESAs, Fragen usw. von Seiten der Studenten zur Regel machen.
+  So wird wie Arbeit zwischen Studenten und Dozenten im Online Studium erleichtert.
