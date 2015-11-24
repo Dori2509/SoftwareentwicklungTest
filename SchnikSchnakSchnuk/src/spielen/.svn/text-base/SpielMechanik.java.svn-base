@@ -1,0 +1,73 @@
+package spielen;
+
+import java.awt.Point;
+import java.util.List;
+
+/**
+ * @author tdpetut
+ */
+
+public interface SpielMechanik {
+
+	/**
+	 * Erstellt die Spielfiguren. Erzeugt sechzehn typenlose Spielfiguren fuer
+	 * den Spieler und sechzehn typenlose Spielfiguren fuer den Gegner. Setzt
+	 * die Positionen der Spielfiguren auf dem Spielfeld.
+	 */
+	public void startGame();
+
+	/**
+	 * Setzt die eigenen Figurtypen. Macht die Figur an der uebergebenen
+	 * Position zum Koenig. Erstellt die restlichen Typen je fuenf mal,
+	 * zufaellig verteilt in den zwei Reihen.
+	 * 
+	 * @param king
+	 *            Position an die der Koenig gesetzt werden soll.
+	 * @return Gibt zurueck ob die setzposition legal war.
+	 */
+	public boolean setMyLineup(Point king);
+
+	/**
+	 * Setzt die Startaufstellung des Gegners..
+	 * 
+	 * @param lineup
+	 *            Enthaelt die Startaufstellung des Gegners.
+	 */
+	public void setOpponentLineup(List<Spielfigur> lineup);
+
+	/**
+	 * Prueft die Legalitaet eines Zuges und fuehrt ihn gegebenenfalls aus.
+	 * 
+	 * @param from
+	 *            Position der zu ziehenden eigenen Figur.
+	 * @param to
+	 *            Position an die gezogen werden soll.
+	 * @return Besagt ob der Zug legal war.
+	 */
+	public boolean myTurn(Point from, Point to);
+
+	/**
+	 * Fuehrt einen gegnerischen Zug aus.
+	 * 
+	 * @param from
+	 *            Position der zu ziehenden Gegnerfigur.
+	 * @param to
+	 *            Ziel der zu ziehenden Gegnerfigur.
+	 */
+	public void opponentTurn(Point from, Point to);
+
+	/**
+	 * Getter fuer die eigenen Figuren.
+	 * 
+	 * @return Liste der eigenen Figuren.
+	 */
+	public List<Spielfigur> getMyPieces();
+
+	/**
+	 * Getter fuer die gegnerischen Figuren.
+	 * 
+	 * @return Liste der gegnerischen Figuren.
+	 */
+	public List<Spielfigur> getOpponentPieces();
+
+}

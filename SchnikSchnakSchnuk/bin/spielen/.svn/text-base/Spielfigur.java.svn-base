@@ -1,0 +1,56 @@
+package spielen;
+
+import java.awt.Point;
+/**
+ * 
+ * @author Dori
+ *Spielfigur erhält Eigenschaften und kann sie zurückgeben
+ */
+
+public class Spielfigur {
+	/**
+	 * Position der Figur wird deglariert.
+	 */
+	private Point position;
+	/**
+	 * Es wird festgelegt, ob die Figur eine eigene oder eine gegnerische ist.
+	 */
+	private boolean gegner;
+	/**
+	 * Waffeneigenschaft der Figur.
+	 */
+	private Waffe waffe;
+	/**
+	 * 
+	 * @param p
+	 * Spielfigur bekommt ihre Position.
+	 * @param w
+	 * Spielfigur bekommt ihre Waffe.
+	 * @param a
+	 * Spielfigur wird gesagt ob sie meine oder vom Gegner ist.
+	 */
+	public Spielfigur(final Point p, final Waffe w, final boolean a) {
+
+		position = p;
+		gegner = a;
+		waffe = w;
+	}
+	/**
+	 * 
+	 * @return
+	 * Gibt Waffe von der Figur aus.
+	 */
+	public final Waffe getTyp() {
+		return waffe;
+	}
+	/**
+	 * 
+	 * @return
+	 * Gibt Position der Figur zurück.	
+	 */
+	public final Point getPoint() {
+		return position;
+
+	}
+
+}

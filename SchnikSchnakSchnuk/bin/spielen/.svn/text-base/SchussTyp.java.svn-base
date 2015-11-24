@@ -1,0 +1,27 @@
+package spielen;
+	
+/**
+ * Schusstypen werden gesetzt.
+ */
+public enum SchussTyp {
+	/**
+	 * Eigene Figur hat gewonnen.
+	 */
+	GEWONNEN, 
+	/**
+	 * Eigene Figur hat verloren.
+	 */
+	VERLOREN, 
+	/**
+	 * Spiel ist vorbei oder wird abgebrochen.
+	 */
+	GAME_OVER, 
+	/**
+	 * Kampf war untentschieden.
+	 */
+	UNENTSCHIEDEN, 
+	/**
+	 * Fehlermeldung.
+	 */
+	ERROR;
+}

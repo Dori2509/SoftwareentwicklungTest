@@ -1,0 +1,215 @@
+package spielen;
+
+
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+/**
+ * 
+ * @author Dori
+ *
+ */
+
+public class GUI implements ActionListener {
+
+	/**
+	 * TUT Kommentar Milestone 1
+	 * 
+	 * Einige Tipps: 
+	 * - Nutze den Eclipse Autoformatter (STRG+SHIFT+F) um den Code 
+	 *   übersichtlich zu halten
+	 * -> Erledigt
+	 *  
+	 * - Kommentiere mehr
+	 * -> Erledigt 
+	 * 
+	 * 
+	 * - Entferne die TODO Tasks wenn sie nicht mehr nötig sind. 
+	 * -> Erledigt
+	 * 
+	 * - Entferne nicht genutzte Imports,Variablen und Klassen
+	 * ->Erledigt
+	 * 
+	 * Es fehlt das Interface deiner Kampfengine.
+	 * ->Erledigt
+	 * 
+	 * TODO Auch die Tests sind nicht fertig.
+	 * -> Erledigt
+	 * 
+	 * 
+	 * 
+	 * Dies musst du noch korrigieren.
+	 * 
+	 * Damit hast du einen nichtbestandenen Milestone.
+	 */
+
+	private JFrame frame;
+	/**
+ 	 * Spiel wird aufgerufen.
+ 	 */
+	private Spielbrett neuesSpiel = new Spielbrett();
+	/**
+	 * Textfeld wird erstellt.
+	 */
+	private JTextArea textArea;
+	/**
+	 * Button "Spiel starten" im Menü Datei wird erstellt.
+	 */
+	private JMenuItem feld1 = new JMenuItem("spiel starten"); 
+	/**
+	 * Button "Spiel beendenstarten" im Menü Datei wird erstellt.				
+	 */
+	private JMenuItem feld2 = new JMenuItem("spiel beenden");
+	/**
+ 	 * Button für Waffe Stein.
+ 	 */
+	private JButton b1 = new JButton("Stein");
+	/**
+	 * Button für Waffe Schere.
+	 */
+	private JButton b2 = new JButton("Schere");
+	/**
+	 * Button für Waffe Papier.
+	 */
+	private JButton b3 = new JButton("Papier");
+	/**
+	 * Button für Waffe König.
+	 */
+	private JButton b4 = new JButton("König");
+	/**
+	 * Eigene Waffe wird initialisiert.
+	 */
+	private Waffe spielerwaffe;
+	/**
+	 * Gegnerische Waffe wird initialisiert.
+	 */
+	private static Waffe gegnerwaffe;
+	/**
+	 * Spielfeldgröße wird definiert.
+	 */
+	private final int spielbrettgroesse = 400;
+
+	/**
+	 * @param args
+	 * Programm "startet" sich
+	 */
+	
+	public static void main(final String[] args) {
+
+		GUI proj = new GUI();
+		proj.gui();
+
+	}
+	/**
+	 * Eigenschaften des Spielbrettes wird gesetzt.
+	 */
+	
+	private void gui() { // Methode
+
+		
+
+			// Hauptfenster
+
+			frame = new JFrame("Schnik Schnak Schnuk"); // Fenster erstellen
+
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setResizable(true);
+			frame.setSize(spielbrettgroesse, spielbrettgroesse);
+			textArea = new JTextArea();
+			frame.add(textArea);
+
+			
+				// Menüleiste
+
+				JMenuBar menuBar = new JMenuBar();
+				frame.setJMenuBar(menuBar);
+
+				JMenu menu1 = new JMenu("Datei");
+				menuBar.add(menu1);
+
+				// Dateiunterpunkte
+
+				feld1.addActionListener(this);
+				feld1.setActionCommand("feld1");
+				menu1.add(feld1);
+
+				menu1.add(feld2);
+				feld2.addActionListener(new ActionListener() {
+					public void actionPerformed(final ActionEvent e) {
+						System.exit(0);
+					}
+				});
+
+				// Buttons unterm Textfeld
+
+				b1.addActionListener(this);
+				b1.setActionCommand("B1");
+				b2.addActionListener(this);
+				b2.setActionCommand("B2");
+				b3.addActionListener(this);
+				b3.setActionCommand("B3");
+				b4.addActionListener(this);
+				b4.setActionCommand("B4");
+				menuBar.add(b1);
+				menuBar.add(b2);
+				menuBar.add(b3);
+				menuBar.add(b4);
+
+				frame.setVisible(true); // Fenster anzeigen
+
+			}
+		
+
+	
+	
+	/**
+	 * @param a
+	 * Klickbefehle.
+	 */
+	public final void actionPerformed(final ActionEvent a) {
+		
+
+		// Dateiunterpunkte
+		if (a.getActionCommand().equals("feld1")) {
+			System.out.println("spiel starten");
+		}
+
+		// Buttons
+		if (a.getActionCommand().equals("B1")) {
+
+			spielerwaffe = Waffe.STEIN;
+			gegnerwaffe = neuesSpiel.zufall(0, 0, 0, 0);
+			SchussTyp schuss = neuesSpiel.vergleich(spielerwaffe, gegnerwaffe);
+			textArea.setText("");
+			textArea.setText(schuss.name());
+		}
+		if (a.getActionCommand().equals("B2")) {
+			spielerwaffe = Waffe.SCHERE;
+			gegnerwaffe = neuesSpiel.zufall(0, 0, 0, 0);
+			SchussTyp schuss = neuesSpiel.vergleich(spielerwaffe, gegnerwaffe);
+			textArea.setText("");
+			textArea.setText(schuss.name());
+		}
+		if (a.getActionCommand().equals("B3")) {
+			spielerwaffe = Waffe.PAPIER;
+			gegnerwaffe = neuesSpiel.zufall(0, 0, 0, 0);
+			SchussTyp schuss = neuesSpiel.vergleich(spielerwaffe, gegnerwaffe);
+			textArea.setText("");
+			textArea.setText(schuss.name());
+		}
+		if (a.getActionCommand().equals("B4")) {
+			spielerwaffe = Waffe.KOENIG;
+			gegnerwaffe = neuesSpiel.zufall(0, 0, 0, 0);
+			SchussTyp schuss = neuesSpiel.vergleich(spielerwaffe, gegnerwaffe);
+			textArea.setText("");
+			textArea.setText(schuss.name());
+		}
+
+	}
+
+}

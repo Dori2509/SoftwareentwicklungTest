@@ -1,0 +1,35 @@
+package spielen;
+/**
+ * 
+ * @author Dori
+ * erstellt Waffen und vergleicht im Kampf 
+ */
+
+public interface ISpielbrett {
+	/**
+	 * 
+	 * @param x1
+	 * Waffe Papier
+	 * @param x2
+	 * Waffe Schere
+	 * @param x3
+	 * Waffe Stein
+	 * @param x4
+	 * König
+	 * @return
+	 * gibt Waffentyp zurück 
+	 */
+	Waffe zufall(int x1, int x2, int x3, int x4);
+
+	/**
+	 * 
+	 * @param spieler
+	 * eigene Spielfigur
+	 * @param gegner
+	 * gegnerische Spielfigur
+	 * @return
+	 * Gibt zurück wie Kampf ausgegangen ist
+	 */
+	SchussTyp vergleich(Waffe spieler, Waffe gegner);
+
+}

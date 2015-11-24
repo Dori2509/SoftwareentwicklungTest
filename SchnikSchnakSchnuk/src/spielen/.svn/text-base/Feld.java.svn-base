@@ -1,0 +1,201 @@
+package spielen;
+
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+/**
+ * 
+ * @author Dori
+ * Das Feld wird aufgebaut und Figuren gesetzt.
+ * Es kann ein Kampf stattfinden.
+ */
+public class Feld implements SpielMechanik {
+
+	/**
+ 	* Die gegnerische Liste wird abgespeichert.
+ 	*/
+	private ArrayList<Spielfigur> gegnerListe = new ArrayList<Spielfigur>();
+	/**
+	* Die eigene Liste wird abgespeichert.
+	*/
+	private ArrayList<Spielfigur> eigeneListe = new ArrayList<Spielfigur>();
+	/**
+	 * Waffenart.
+	 */
+	private Waffe waffe;
+	/**
+	 * Feldgroeﬂe wird definiert.
+	 */
+	private final int feldgroesse = 7;
+	/**
+	 * Zeile des Gegners. 
+	 */
+	private final int zeileGegner = 6;
+	//Position wird einer Figur zugewiesen
+	/**
+	 * Spielfeld wird mit seinen Figuren aufgebaut.
+	 */
+	public final void startGame() {
+		for (int a = zeileGegner; a <= feldgroesse; a++) {
+			for (int b = 0; b <= feldgroesse; b++) {
+				Point punkt = new Point(b, a);
+				gegnerListe.add(new Spielfigur(punkt, null, false));
+			}
+		}
+		for (int a = 0; a <= 1; a++) {
+			for (int b = 0; b <= feldgroesse; b++) {
+				Point punkt = new Point(b, a);
+				eigeneListe.add(new Spielfigur(punkt, null, false));
+			}
+		}
+	}
+	//Waffen werden den Positionen zugeordnet
+	@Override
+	public final boolean setMyLineup(final Point king) {
+	if (king.x >= 0 && king.x <= feldgroesse && king.y >= 0 && king.y <= 1) {
+			Spielbrett neuesSpiel = new Spielbrett();
+			int x1 = 0;
+			int x2 = 0;
+			int x3 = 0;
+			int x4 = 1;
+			
+			for (int i = 0; i < eigeneListe.size(); i++) {
+				Point punkt = eigeneListe.get(i).getPoint();
+				if (punkt.equals(king)) {
+					eigeneListe.set(i, new Spielfigur(punkt, Waffe.KOENIG,
+							false));
+				} else {
+					waffe = neuesSpiel.zufall(x1, x2, x3, x4);
+					if (Waffe.PAPIER == waffe) {
+						x1++;
+					}
+					if (Waffe.SCHERE == waffe) {
+						x2++;
+					}
+					if (Waffe.STEIN == waffe) {
+						x3++;
+					}
+					eigeneListe.set(i, new Spielfigur(punkt, waffe, false));
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	/*Kampf findet statt, Ich setze Figur auf eine Position 
+	*und es wird ¸berpr¸ft ob vom Gegner
+	eine Figur zum Kampf gegen¸ber steht*/
+	@Override
+	public final boolean myTurn(final Point from, final Point to) {
+		if (!(to.x >= 0 && to.x <= feldgroesse && to.y >= 0 
+				&& to.y <= feldgroesse && from.x >= 0
+				&& from.x <= feldgroesse && from.y >= 0 
+				&& from.y <= feldgroesse)) {
+			return false;
+		}
+		int indexFrom = -1;
+		boolean okay = false;
+		for (int i = 0; i < eigeneListe.size(); i++)
+			if (eigeneListe.get(i).getPoint().equals(from)) {
+				okay = true;
+				indexFrom = i;
+			}
+		if (!okay) { 
+			return false;
+		}
+		int abstand = Math.abs(to.x - from.x) + Math.abs(to.y - from.y);
+
+		if (abstand != 1) {
+			return false;
+		}
+		int indexTo = -1;
+		for (int i = 0; i < gegnerListe.size(); i++) {
+			if (gegnerListe.get(i).getPoint().equals(to)) {
+
+				indexTo = i;
+				Waffe geraetEigene = eigeneListe.get(indexFrom).getTyp();
+				Waffe geraetGegner = gegnerListe.get(indexTo).getTyp();
+				SchussTyp ausgang = new Spielbrett().vergleich(geraetEigene,
+						geraetGegner);
+				switch (ausgang) {
+				case GEWONNEN:
+					eigeneListe.set(indexFrom, new Spielfigur(to,
+							geraetEigene, false));
+					gegnerListe.remove(indexTo);
+					return true;
+				case VERLOREN:
+					gegnerListe.set(indexTo, new Spielfigur(from,
+							geraetGegner, false));
+					eigeneListe.remove(indexFrom);
+					return true;
+				case UNENTSCHIEDEN:
+					return true;
+				default:
+					return false;
+				}
+			}
+		}
+
+		Waffe geraet = eigeneListe.get(indexFrom).getTyp();
+		eigeneListe.set(indexFrom, new Spielfigur(to, geraet, false));
+		return true;
+		
+	}
+	//Gegner setzt Figur und es wird ¸berpr¸ft ob es zum Kampf kommt
+	@Override
+	public final void opponentTurn(final Point from, final Point to) {
+
+		int indexFrom = -1;
+		for (int i = 0; i < gegnerListe.size(); i++)
+			if (gegnerListe.get(i).getPoint().equals(from)) {
+				indexFrom = i;
+			}
+		int indexTo = -1;
+		for (int i = 0; i < eigeneListe.size(); i++) {
+			if (eigeneListe.get(i).getPoint().equals(to)) {
+
+				indexTo = i;
+				Waffe geraetEigene = eigeneListe.get(indexFrom).getTyp();
+				Waffe geraetGegner = gegnerListe.get(indexTo).getTyp();
+				SchussTyp ausgang = new Spielbrett().vergleich(geraetGegner,
+						geraetEigene);
+				switch (ausgang) {
+				case VERLOREN:
+					eigeneListe.set(indexTo, new Spielfigur(from,
+							geraetEigene, false));
+					gegnerListe.remove(indexFrom);
+					return;
+				case GEWONNEN:
+					gegnerListe.set(indexFrom, new Spielfigur(to,
+							geraetGegner, false));
+					eigeneListe.remove(indexTo);
+					return;
+				case UNENTSCHIEDEN:
+					return;
+				default:
+					return;
+				}
+			}
+		}
+		// Keine Figur bei to
+		Waffe geraet = gegnerListe.get(indexFrom).getTyp();
+		gegnerListe.set(indexFrom, new Spielfigur(to, geraet, false));
+		return;
+	}
+	//setzt Gegnerfiguren
+	@Override
+	public final void setOpponentLineup(final List<Spielfigur> lineup) {
+		gegnerListe = (ArrayList<Spielfigur>) lineup;
+	}
+	
+	@Override
+	public final List<Spielfigur> getMyPieces() {
+		return eigeneListe;
+	}
+
+	@Override
+	public  final List<Spielfigur> getOpponentPieces() {
+		return gegnerListe;
+	}
+
+}
