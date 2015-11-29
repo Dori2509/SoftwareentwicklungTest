@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
  *
  */
 
-public class GUI implements ActionListener {
+/*public class GUI implements ActionListener {
 
 	/**
 	 * Frame, in dem das Spiel dargestellt wird.
